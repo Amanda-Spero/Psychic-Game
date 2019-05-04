@@ -13,7 +13,7 @@
                     <h1 class="text-center">Psychic Game</h1>
                     <h3 class="text-center">What letter am I thinking of?</h3>
             </div>
-            <p>Guess a letter: </p><input id="input" onKeyUp="getLetter()"/>
+            <!-- <p>Guess a letter: </p><input id="input" /> -->
             <p>Wins: </p><span id="wins"></span>
             <p>Losses: </p><span id="losses"></span>
             <p>Guesses left: </p><p id="guesses-left"></p>
@@ -30,10 +30,13 @@ let guessedLetters = [];
 
 
 
-
-document.getElementeById("input").onKeyUp = function() {
-getLetter();
+document.onkeyup = function(event) {
+  getLetter();
 }
+// document.getElementeById("input").onKeyUp = function() {
+// getLetter();
+// }
+
 function getLetter() {
   var letter = String.fromCharCode(event.which).toLowerCase();
   guessedLetters.push(letter);
