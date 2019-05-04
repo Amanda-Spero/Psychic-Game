@@ -12,6 +12,7 @@
             <div class="header">
                     <h1 class="text-center">Psychic Game</h1>
                     <h3 class="text-center">What letter am I thinking of?</h3>
+                    <h1 id="winBanner"></h1>
             </div>
             <!-- <p>Guess a letter: </p><input id="input" /> -->
             <p>Wins: </p><span id="wins"></span>
@@ -20,37 +21,35 @@
             <p>Your guesses so far: </p><p id="guessed" ></p>
 
 <script type="text/javascript">
-// let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-// let randomLetter;
+let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+let randomLetter;
 let guessedLetters = [];
 // let guessesLeft = 9;
 // let wins = 0;
 // let losses = 0;
 
 
+function getRandomLetter() {
+  randomLetter = letters[Math.floor(Math.random() * letters.length)];
+}
 
+getRandomLetter();
 
 document.onkeyup = function(event) {
   getLetter();
 }
-// document.getElementeById("input").onKeyUp = function() {
-// getLetter();
-// }
 
 function getLetter() {
   var letter = String.fromCharCode(event.which).toLowerCase();
   guessedLetters.push(letter);
   document.getElementById("guessed").innerHTML = guessedLetters;
-  console.log(letter);
-
+  if (letter === randomLetter) {
+    document.getElementById("winBanner").innerHTML = "You Win!"
+  } 
 }
 
 
-// function displayGuessedLetter() {
-//   document.getElementById
-// }
 
 </script>
-
 </body>
 </html>
