@@ -11,51 +11,91 @@
     <body>
             <div class="header">
                     <h1 class="text-center">Psychic Game</h1>
-                    <h3 class="text-center">What letter am I thinking of?</h3>
+                    <h3 class="text-center" id="banner">What letter am I thinking of?</h3>
                     <h1 id="winBanner"></h1>
+                    <span id="playAgain"></span>
             </div>
             <!-- <p>Guess a letter: </p><input id="input" /> -->
-            <p>Wins: </p><span id="wins"></span>
-            <p>Losses: </p><span id="losses"></span>
-            <span>Guesses left: </span><span id="guesses-left"></span>
-            <p>Your guesses so far: </p><p id="guessed" ></p>
+            <div display="block">Wins: <span id="wins"></span></div>
+            <div display="block">Losses: <span id="losses"></span></div>
+            <div display="block">Guesses left: <span id="guesses-left"></span></div>
+            <div display="block">Your guesses so far: </div><div id="guessed" ></div>
+            <!-- <button id="playAgain" visibility="hidden">Play Again</button> -->
+
+<style>
+  /* #playAgain {
+    visibility: hidden;
+  } */
+</style>            
 
 <script type="text/javascript">
 let letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
-let randomLetter;
+let randomLetter = null;
 let guessedLetters = [];
 let guessesLeft = 9;
-// let wins = 0;
-// let losses = 0;
+let wins = 0;
+let losses = 0;
+let restartButton = document.getElementById("playAgain");
 
-
-function updateGuessesLeft() {
-  document.getElementById("guesses-left").innerHTML = guessesLeft;
-  if (guessesLeft === 0) {
-  document.getElementById("winBanner").innerHTML = "You Lose!"
+function start() {
+  getRandomLetter();
+  updateGuessesLeft();
 }
+
+start();
+
+function restart() {
+  guessesLeft = 9;
+  updateGuessesLeft();
+  getRandomLetter();
+  guessedLetters = [];
+  console.log(guessedLetters);
+  updateGuessesSoFar();
 }
 
 function getRandomLetter() {
   randomLetter = letters[Math.floor(Math.random() * letters.length)];
+  console.log(randomLetter);
 }
 
-getRandomLetter();
+function updateGuessesSoFar() {
+  document.getElementById("guessed").innerHTML = guessedLetters;
+}
+
+function updateGuessesLeft() {
+  document.getElementById("guesses-left").innerHTML = guessesLeft;
+}
+
+function updateWins() {
+  wins++;
+  document.getElementById("wins").innerHTML = wins;
+}
+
+function updateLosses() {
+  losses++;
+  document.getElementById("losses").innerHTML = losses;
+}
 
 document.onkeyup = function(event) {
-  guessesLeft --;
   var letter = String.fromCharCode(event.which).toLowerCase();
-  guessedLetters.push(letter.toUpperCase());
-  document.getElementById("guessed").innerHTML = guessedLetters;
-  updateGuessesLeft();
-  if (letter === randomLetter) {
-    document.getElementById("winBanner").innerHTML = "You Win!"
+
+  if (letter !== randomLetter) {
+      if (guessesLeft > 0) {
+      guessedLetters.push(letter.toUpperCase());
+      updateGuessesSoFar();
+      guessesLeft --;
+      document.getElementById("guesses-left").innerHTML = guessesLeft;
+    } else if (guessesLeft === 0) {
+      document.getElementById("banner").innerHTML = "You lose :("
+      updateLosses();
+      restart();
+    }
+  } else if (letter === randomLetter) {
+    document.getElementById("banner").innerHTML = "You Win!"
+    updateWins();
+    restart();
   } 
 }
-
-
-
-
 
 </script>
 </body>
